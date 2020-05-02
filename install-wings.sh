@@ -30,8 +30,8 @@ fi
 
 # define version using information from GitHub
 get_latest_release() {
-  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
-    grep '"tag_name":' |                                            # Get tag line
+  curl --silent "https://api.github.com/repos/$1/releases" | # Get latest release from GitHub api
+    grep -m 1 '"tag_name":' |                                            # Get tag line
     sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
 }
 
@@ -41,8 +41,8 @@ VERSION="$(get_latest_release "pterodactyl/wings")"
 echo "* Latest version is $VERSION"
 
 # download URLs
-DL_URL="https://github.com/pterodactyl/wings/releases/latest/download/wings"
-CONFIGS_URL="https://raw.githubusercontent.com/VilhelmPrytz/pterodactyl-installer/master/configs"
+DL_URL="https://github.com/pterodactyl/wings/releases/download/$VERSION/wings"
+CONFIGS_URL="https://raw.githubusercontent.com/Ruben-C/pterodactyl-installer/pterodactyl-1.0/configs"
 
 COLOR_RED='\033[0;31m'
 COLOR_NC='\033[0m'
